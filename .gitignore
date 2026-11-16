@@ -1,0 +1,24 @@
+# Python environments and caches
+.venv/
+__pycache__/
+.pytest_cache/
+
+# Local datasets and training outputs
+/data/raw/
+/data/processed/
+/runs/
+
+# Generated FPGA build and simulation outputs
+/build/
+.Xil/
+*.cache/
+*.gen/
+*.hw/
+*.runs/
+*.sim/
+xsim.dir/
+*.jou
+*.log
+*.wdb
+*.dcp
+*.bit
