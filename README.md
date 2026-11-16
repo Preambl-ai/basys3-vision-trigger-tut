@@ -45,6 +45,10 @@ iverilog -g2012 -s led_blink_tb -o build/led_blink.vvp rtl/led_blink.sv sim/led_
 vvp build/led_blink.vvp
 ```
 
+## Prepare the CNN inputs
+
+Use the [clip capture and crop preview guide](docs/capture-clips.md) to check the first camera recordings on your laptop.
+
 ## Milestones
 
 - [ ] Program and verify the LED blinker.
