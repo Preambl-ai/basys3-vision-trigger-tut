@@ -10,10 +10,40 @@ The first demo will use a laptop to crop and send images over USB serial. The FP
 
 ## Getting started
 
-1. Install Git, VS Code, and AMD Vivado with Artix-7 support.
-2. Connect the Basys 3 to your computer over its programming USB port.
-3. Use the board manual and pin constraints below to build and program a simple LED blinker. Record the Vivado version and the steps that worked here.
-4. Use a webcam or phone to record normal passes, out-of-position passes, and distracting motion. Check that the event remains visible in a 32 × 32 grayscale crop.
+The first milestone uses the board's 100 MHz clock to toggle LD0 every half-second. One full blink takes one second.
+
+### Build the LED blinker
+
+Install AMD Vivado with Artix-7 device support. From the repository root, run this in PowerShell with Vivado on your PATH.
+
+```powershell
+vivado -mode batch -source scripts/build_blink.tcl
+```
+
+If Vivado is installed outside your PATH, use the full path to `vivado.bat`. For example, on this computer the command is:
+
+```powershell
+& 'C:/AMDDesignTools/2025.2/Vivado/bin/vivado.bat' -mode batch -source scripts/build_blink.tcl
+```
+
+The build writes the bitstream to `build/blink/led_blink.bit` and saves timing and resource reports alongside it.
+
+### Program the board
+
+1. Connect the Basys 3 using a data-capable micro-USB cable at its programming port and turn the board on.
+2. In Vivado, open **Hardware Manager**, then select **Open Target** and **Auto Connect**.
+3. Select the Artix-7 device, choose **Program Device**, and select `build/blink/led_blink.bit`.
+4. Look for **LD0** to turn on and off at half-second intervals. Programming this way loads the FPGA until power is removed.
+
+### Run the simulation
+
+With Icarus Verilog installed, run the following from the repository root. The simulation uses a shorter interval and checks the initial LED state and the exact toggle cycles.
+
+```powershell
+New-Item -ItemType Directory -Force build | Out-Null
+iverilog -g2012 -s led_blink_tb -o build/led_blink.vvp rtl/led_blink.sv sim/led_blink_tb.sv
+vvp build/led_blink.vvp
+```
 
 ## Milestones
 

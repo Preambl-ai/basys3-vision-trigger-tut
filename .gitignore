@@ -22,3 +22,4 @@ xsim.dir/
 *.wdb
 *.dcp
 *.bit
+/dfx_runtime.txt
