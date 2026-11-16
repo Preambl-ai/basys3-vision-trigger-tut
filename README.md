@@ -45,6 +45,32 @@ iverilog -g2012 -s led_blink_tb -o build/led_blink.vvp rtl/led_blink.sv sim/led_
 vvp build/led_blink.vvp
 ```
 
+### Test the USB serial connection
+
+The serial test keeps LD0 blinking and echoes one byte back through the board's USB programming port. The connection uses 115200 baud, eight data bits, no parity, and one stop bit. Send one byte at a time and wait for its reply.
+
+Build the test from the repository root with Vivado.
+
+```powershell
+vivado -mode batch -source scripts/build_uart_echo.tcl
+```
+
+On the Basys 3, use **Program Device** in Vivado Hardware Manager to load `build/uart_echo/uart_echo.bit`. Then run this from the project's PowerShell terminal, using the port listed under **Ports (COM & LPT)** in Windows Device Manager.
+
+```powershell
+.\scripts\test_uart.ps1 -Port COM5
+```
+
+The test should print `PASS: sent A and received A on COM5.`. An LED blink by itself does not verify the serial exchange. If the script times out, check that the serial test bitstream is loaded and the port number is correct.
+
+To check the echo logic in simulation with Icarus Verilog:
+
+```powershell
+New-Item -ItemType Directory -Force build | Out-Null
+iverilog -g2012 -s uart_echo_tb -o build/uart_echo.vvp rtl/led_blink.sv rtl/uart_echo.sv sim/uart_echo_tb.sv
+vvp build/uart_echo.vvp
+```
+
 ## Prepare the CNN inputs
 
 Use the [clip capture and crop preview guide](docs/capture-clips.md) to check the first camera recordings on your laptop.
@@ -57,7 +83,8 @@ Install the model's dependency with `python -m pip install -r ml/requirements-mo
 
 ## Milestones
 
-- [ ] Program and verify the LED blinker.
+- [x] Program and verify the LED blinker.
+- [ ] Echo a byte over USB serial on the physical board.
 - [ ] Train a two-layer CNN in PyTorch and compare it with a simple image rule on clips from a different recording session.
 - [ ] Export 8-bit weights and record expected scores for a small set of test images.
 - [ ] Match the integer reference scores in simulation and on the Basys 3.
