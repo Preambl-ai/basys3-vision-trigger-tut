@@ -49,6 +49,12 @@ vvp build/led_blink.vvp
 
 Use the [clip capture and crop preview guide](docs/capture-clips.md) to check the first camera recordings on your laptop.
 
+## CNN model
+
+The PyTorch model in [ml/model.py](ml/model.py) takes a batch of 32 × 32 grayscale crops with pixel values scaled to 0–1. Two convolution layers extract visual features. Pooling leaves a 2 × 2 grid so the model can use the position of an object when scoring an event. The model returns one raw score per crop and has 369 trainable parameters.
+
+Install the model's dependency with `python -m pip install -r ml/requirements-model.txt`. The architecture is ready for training on labeled recordings.
+
 ## Milestones
 
 - [ ] Program and verify the LED blinker.
