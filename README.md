@@ -69,8 +69,32 @@ To check the echo logic in simulation with Icarus Verilog:
 
 ```powershell
 New-Item -ItemType Directory -Force build | Out-Null
-iverilog -g2012 -s uart_echo_tb -o build/uart_echo.vvp rtl/led_blink.sv rtl/uart_echo.sv sim/uart_echo_tb.sv
+iverilog -g2012 -s uart_echo_tb -o build/uart_echo.vvp rtl/led_blink.sv rtl/uart_byte.sv rtl/uart_echo.sv sim/uart_echo_tb.sv
 vvp build/uart_echo.vvp
+```
+
+### Send a full test image over USB
+
+This test uses a generated 32 × 32 image. The FPGA stores its 1,024 grayscale pixels in block RAM, then sends all 1,024 bytes back in row order. The laptop checks the returned bytes.
+
+1. Build the new design with `vivado -mode batch -source scripts/build_frame_echo.tcl` from the repository root.
+2. In Vivado Hardware Manager, use **Program Device** to load `build/frame_echo/frame_echo.bit`.
+3. Run the command below from the project terminal. It uses the same Python environment and serial port as the one-byte test.
+
+```powershell
+.\.venv\Scripts\python.exe scripts/test_frame.py COM5
+```
+
+The expected result is `PASS: all 1,024 pixels matched on COM5.`
+
+The request starts with `0xA5` followed by exactly 1,024 pixel bytes. The board starts replying after the last pixel is stored. A 100 ms gap between received bytes discards an incomplete image, and the test waits for that interval before retrying. Send the next image after receiving the current reply.
+
+To check the frame buffer in simulation with Icarus Verilog:
+
+```powershell
+New-Item -ItemType Directory -Force build | Out-Null
+iverilog -g2012 -s frame_echo_tb -o build/frame_echo.vvp rtl/led_blink.sv rtl/uart_byte.sv rtl/frame_echo.sv sim/frame_echo_tb.sv
+vvp build/frame_echo.vvp
 ```
 
 ## Prepare the CNN inputs
@@ -87,6 +111,7 @@ Install the model's dependency with `python -m pip install -r ml/requirements-mo
 
 - [x] Program and verify the LED blinker.
 - [x] Echo a byte over USB serial on the physical board.
+- [ ] Store and return a complete 32 × 32 image on the physical board.
 - [ ] Train a two-layer CNN in PyTorch and compare it with a simple image rule on clips from a different recording session.
 - [ ] Export 8-bit weights and record expected scores for a small set of test images.
 - [ ] Match the integer reference scores in simulation and on the Basys 3.
