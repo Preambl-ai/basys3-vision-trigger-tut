@@ -23,3 +23,4 @@ xsim.dir/
 *.dcp
 *.bit
 /dfx_runtime.txt
+/clockInfo.txt
