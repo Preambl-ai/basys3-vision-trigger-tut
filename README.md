@@ -58,7 +58,9 @@ vivado -mode batch -source scripts/build_uart_echo.tcl
 On the Basys 3, use **Program Device** in Vivado Hardware Manager to load `build/uart_echo/uart_echo.bit`. Then run this from the project's PowerShell terminal, using the port listed under **Ports (COM & LPT)** in Windows Device Manager.
 
 ```powershell
-.\scripts\test_uart.ps1 -Port COM5
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r scripts/requirements-uart.txt
+.\.venv\Scripts\python.exe scripts/test_uart.py COM5
 ```
 
 The test should print `PASS: sent A and received A on COM5.`. An LED blink by itself does not verify the serial exchange. If the script times out, check that the serial test bitstream is loaded and the port number is correct.
@@ -84,7 +86,7 @@ Install the model's dependency with `python -m pip install -r ml/requirements-mo
 ## Milestones
 
 - [x] Program and verify the LED blinker.
-- [ ] Echo a byte over USB serial on the physical board.
+- [x] Echo a byte over USB serial on the physical board.
 - [ ] Train a two-layer CNN in PyTorch and compare it with a simple image rule on clips from a different recording session.
 - [ ] Export 8-bit weights and record expected scores for a small set of test images.
 - [ ] Match the integer reference scores in simulation and on the Basys 3.
