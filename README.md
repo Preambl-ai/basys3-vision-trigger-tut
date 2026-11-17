@@ -2,6 +2,10 @@
 
 A Preambl prototype for running a small camera classifier on a Basys 3 FPGA. The first demo detects when an eraser crosses a marked lane.
 
+## CIFAR-10 benchmark
+
+The ResNet-8 reference model classified **87.19% of 10,000 test images correctly** on the laptop, with a median inference time of about **0.65 ms per image**. [Results and reproduction steps](docs/cifar10-baseline.md)
+
 ## Camera test
 
 The two-layer CNN trained on **9 grayscale images** and correctly classified **9 out of 9 images from a separate recording** on the laptop. Each input is 32 × 32 pixels. This first test used one eraser and one tabletop setup.
@@ -23,6 +27,6 @@ python ml/train.py
 ## FPGA progress
 
 - **On the board:** Verified the LED blink and USB serial echo, then sent a 32 × 32 test image and received all 1,024 pixels back.
-- **Next:** Convert the CNN weights to 8-bit integers and check that the model makes the same decisions before implementing it on the FPGA.
+- **Next:** Evaluate the integer ResNet-8 model and check whether it fits on the Basys 3.
 
 [Basys 3 setup and hardware tests](docs/basys3-setup.md) · [Camera capture guide](docs/capture-clips.md)
