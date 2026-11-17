@@ -1,0 +1,101 @@
+"""Download and verify inputs for the CIFAR-10 laptop benchmark."""
+
+import hashlib
+import pickle
+import shutil
+import tarfile
+from pathlib import Path
+from tempfile import NamedTemporaryFile
+from urllib.request import urlopen
+
+import numpy as np
+from ai_edge_litert.interpreter import Interpreter
+
+ASSETS = Path("runs/cifar10-baseline/assets")
+MLPERF_REVISION = "4addd0fa08d216e20637637874e084895f289da4"
+MODEL_URL = (
+    f"https://raw.githubusercontent.com/mlcommons/tiny/{MLPERF_REVISION}/"
+    "benchmark/training/image_classification/trained_models/pretrainedResnet.tflite"
+)
+MODEL_SHA256 = "b5c0046d6e0328b4956afd6baa29555a29b1f1c65bdd45aaed75b7cd484d9f79"
+DATASET_URL = "https://storage.googleapis.com/tensorflow/tf-keras-datasets/cifar-10-python.tar.gz"
+DATASET_SHA256 = "6d958be074577803d12ecdefd02955f39262c83c16fe9348329d7fe0b5c001ce"
+IMAGE_SHAPE = (32, 32, 3)
+TEST_IMAGES = 10_000
+CLASS_COUNT = 10
+
+
+def sha256(path: Path) -> str:
+    with path.open("rb") as source:
+        return hashlib.file_digest(source, "sha256").hexdigest()
+
+
+def verified_asset(name: str, url: str, checksum: str) -> Path:
+    destination = ASSETS / name
+    if destination.is_file() and sha256(destination) == checksum:
+        return destination
+
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    print(f"Downloading {name}", flush=True)
+    temporary = NamedTemporaryFile(dir=destination.parent, delete=False)
+    pending = Path(temporary.name)
+    try:
+        with temporary, urlopen(url, timeout=60) as source:
+            shutil.copyfileobj(source, temporary, length=1024 * 1024)
+        if sha256(pending) != checksum:
+            raise ValueError(f"SHA-256 mismatch for {name}")
+        pending.replace(destination)
+    finally:
+        pending.unlink(missing_ok=True)
+    return destination
+
+
+def load_test_set() -> tuple[np.ndarray, np.ndarray]:
+    archive = verified_asset("cifar-10-python.tar.gz", DATASET_URL, DATASET_SHA256)
+    # Verify the known archive before unpickling its original test batch.
+    with tarfile.open(archive, "r:gz") as release:
+        member = release.extractfile("cifar-10-batches-py/test_batch")
+        if member is None:
+            raise ValueError("CIFAR-10 test batch is missing")
+        with member:
+            batch = pickle.load(member, encoding="bytes")
+
+    pixels = batch[b"data"]
+    labels = np.asarray(batch[b"labels"], dtype=np.int64)
+    classes, counts = np.unique(labels, return_counts=True)
+    if pixels.shape != (TEST_IMAGES, 3072) or pixels.dtype != np.uint8:
+        raise ValueError("Expected 10,000 packed 32 × 32 RGB test images")
+    if labels.shape != (TEST_IMAGES,) or not (
+        np.array_equal(classes, np.arange(CLASS_COUNT))
+        and np.all(counts == TEST_IMAGES // CLASS_COUNT)
+    ):
+        raise ValueError("Expected exactly 1,000 test labels per CIFAR-10 class")
+
+    # CIFAR-10 stores channel planes. The reference model expects RGB per pixel.
+    images = pixels.reshape(TEST_IMAGES, 3, 32, 32).transpose(0, 2, 3, 1)
+    return np.ascontiguousarray(images), labels
+
+
+def open_reference_model() -> tuple[Interpreter, int, int]:
+    path = verified_asset("resnet8-float.tflite", MODEL_URL, MODEL_SHA256)
+    interpreter = Interpreter(model_path=str(path), num_threads=1)
+    interpreter.allocate_tensors()
+    inputs = interpreter.get_input_details()
+    outputs = interpreter.get_output_details()
+    if len(inputs) != 1 or len(outputs) != 1:
+        raise ValueError("Expected one model input and one model output")
+    model_input, model_output = inputs[0], outputs[0]
+    if (
+        tuple(model_input["shape"]) != (1, *IMAGE_SHAPE)
+        or tuple(model_output["shape"]) != (1, CLASS_COUNT)
+        or model_input["dtype"] != np.float32
+        or model_output["dtype"] != np.float32
+    ):
+        raise ValueError("Expected a float32 RGB input and ten float32 class scores")
+    return interpreter, model_input["index"], model_output["index"]
+
+
+if __name__ == "__main__":
+    open_reference_model()
+    load_test_set()
+    print("Verified the ResNet-8 model and 10,000 CIFAR-10 test images.")
