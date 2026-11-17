@@ -105,14 +105,15 @@ Use the [clip capture and crop preview guide](docs/capture-clips.md) to check th
 
 The PyTorch model in [ml/model.py](ml/model.py) takes a batch of 32 × 32 grayscale crops with pixel values scaled to 0–1. Two convolution layers extract visual features. Pooling leaves a 2 × 2 grid so the model can use the position of an object when scoring an event. The model returns one raw score per crop and has 369 trainable parameters.
 
-Install the model's dependency with `python -m pip install -r ml/requirements-model.txt`. The architecture is ready for training on labeled recordings.
+See the [first camera test](docs/eraser-pilot.md) for the labeled recordings, the training command, and the results on a separate test recording.
 
 ## Milestones
 
 - [x] Program and verify the LED blinker.
 - [x] Echo a byte over USB serial on the physical board.
 - [ ] Store and return a complete 32 × 32 image on the physical board.
-- [ ] Train a two-layer CNN in PyTorch and compare it with a simple image rule on clips from a different recording session.
+- [x] Train a two-layer CNN in PyTorch and test it on clips from a different recording session.
+- [ ] Compare the CNN with a simple image rule.
 - [ ] Export 8-bit weights and record expected scores for a small set of test images.
 - [ ] Match the integer reference scores in simulation and on the Basys 3.
 - [ ] Run the live camera demo and record missed events and false triggers.

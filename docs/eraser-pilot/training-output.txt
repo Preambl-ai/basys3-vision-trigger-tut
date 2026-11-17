@@ -1,0 +1,12 @@
+Training on 9 images
+left-inside: expected normal, predicted normal
+middle-inside: expected normal, predicted normal
+right-inside: expected normal, predicted normal
+left-bottom: expected out-of-position, predicted out-of-position
+left-top: expected out-of-position, predicted out-of-position
+middle-bottom: expected out-of-position, predicted out-of-position
+middle-top: expected out-of-position, predicted out-of-position
+right-bottom: expected out-of-position, predicted out-of-position
+right-top: expected out-of-position, predicted out-of-position
+Separate test recording: 9/9 correct
+Saved checkpoint to runs\eraser-pilot\model.pt
