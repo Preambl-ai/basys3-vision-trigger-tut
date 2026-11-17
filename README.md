@@ -4,7 +4,7 @@ A Preambl prototype for running a small camera classifier on a Basys 3 FPGA. The
 
 ## CIFAR-10 benchmark
 
-The ResNet-8 reference model classified **87.19% of 10,000 test images correctly** on the laptop, with a median inference time of about **0.65 ms per image**. [Results and reproduction steps](docs/cifar10-baseline.md)
+On 10,000 test images, ResNet-8 reached **87.19% at about 0.65 ms per image** in float32 and **86.97% at about 0.22 ms per image** with optimized INT8 CPU inference. These are median laptop timings. [Results and reproduction steps](docs/cifar10-baseline.md)
 
 ## Camera test
 
@@ -27,6 +27,6 @@ python ml/train.py
 ## FPGA progress
 
 - **On the board:** Verified the LED blink and USB serial echo, then sent a 32 × 32 test image and received all 1,024 pixels back.
-- **Next:** Evaluate the integer ResNet-8 model and check whether it fits on the Basys 3.
+- **Next:** Check whether the integer ResNet-8 fits on the Basys 3 using Vivado.
 
 [Basys 3 setup and hardware tests](docs/basys3-setup.md) · [Camera capture guide](docs/capture-clips.md)

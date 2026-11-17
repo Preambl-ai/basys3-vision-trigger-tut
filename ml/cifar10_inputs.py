@@ -10,15 +10,18 @@ from tempfile import NamedTemporaryFile
 from urllib.request import urlopen
 
 import numpy as np
-from ai_edge_litert.interpreter import Interpreter
+from ai_edge_litert.interpreter import Interpreter, OpResolverType
 
 ASSETS = Path("runs/cifar10-baseline/assets")
 MLPERF_REVISION = "4addd0fa08d216e20637637874e084895f289da4"
-MODEL_URL = (
+MODEL_DIRECTORY_URL = (
     f"https://raw.githubusercontent.com/mlcommons/tiny/{MLPERF_REVISION}/"
-    "benchmark/training/image_classification/trained_models/pretrainedResnet.tflite"
+    "benchmark/training/image_classification/trained_models"
 )
 MODEL_SHA256 = "b5c0046d6e0328b4956afd6baa29555a29b1f1c65bdd45aaed75b7cd484d9f79"
+INT8_MODEL_SHA256 = "3c002613d1b2475eb51dd78dfb85a546c8ae658dee71cf6ade43b022fe205415"
+INT8_INPUT_QUANTIZATION = (1.0, -128)
+INT8_OUTPUT_QUANTIZATION = (1 / 256, -128)
 DATASET_URL = "https://storage.googleapis.com/tensorflow/tf-keras-datasets/cifar-10-python.tar.gz"
 DATASET_SHA256 = "6d958be074577803d12ecdefd02955f39262c83c16fe9348329d7fe0b5c001ce"
 IMAGE_SHAPE = (32, 32, 3)
@@ -77,22 +80,38 @@ def load_test_set() -> tuple[np.ndarray, np.ndarray]:
     return np.ascontiguousarray(images), labels
 
 
-def open_reference_model() -> tuple[Interpreter, int, int]:
-    path = verified_asset("resnet8-float.tflite", MODEL_URL, MODEL_SHA256)
-    interpreter = Interpreter(model_path=str(path), num_threads=1)
+def open_reference_model(
+    *, int8: bool = False, reference_kernels: bool = False
+) -> tuple[Interpreter, int, int]:
+    if int8:
+        path = verified_asset(
+            "resnet8-int8.tflite", f"{MODEL_DIRECTORY_URL}/pretrainedResnet_quant.tflite", INT8_MODEL_SHA256
+        )
+    else:
+        path = verified_asset(
+            "resnet8-float.tflite", f"{MODEL_DIRECTORY_URL}/pretrainedResnet.tflite", MODEL_SHA256
+        )
+    resolver = OpResolverType.BUILTIN_REF if reference_kernels else OpResolverType.AUTO
+    interpreter = Interpreter(model_path=str(path), num_threads=1, experimental_op_resolver_type=resolver)
     interpreter.allocate_tensors()
     inputs = interpreter.get_input_details()
     outputs = interpreter.get_output_details()
     if len(inputs) != 1 or len(outputs) != 1:
         raise ValueError("Expected one model input and one model output")
     model_input, model_output = inputs[0], outputs[0]
+    dtype = np.int8 if int8 else np.float32
     if (
         tuple(model_input["shape"]) != (1, *IMAGE_SHAPE)
         or tuple(model_output["shape"]) != (1, CLASS_COUNT)
-        or model_input["dtype"] != np.float32
-        or model_output["dtype"] != np.float32
+        or model_input["dtype"] != dtype
+        or model_output["dtype"] != dtype
     ):
-        raise ValueError("Expected a float32 RGB input and ten float32 class scores")
+        raise ValueError(f"Expected a {dtype.__name__} RGB input and ten {dtype.__name__} class scores")
+    if int8 and (
+        model_input["quantization"] != INT8_INPUT_QUANTIZATION
+        or model_output["quantization"] != INT8_OUTPUT_QUANTIZATION
+    ):
+        raise ValueError("Unexpected input or output quantization for the reference model")
     return interpreter, model_input["index"], model_output["index"]
 
 
