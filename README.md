@@ -27,6 +27,7 @@ python ml/train.py
 ## FPGA progress
 
 - **On the board:** Verified the LED blink and USB serial echo, then sent a 32 × 32 test image and received all 1,024 pixels back.
-- **Next:** Check whether the integer ResNet-8 fits on the Basys 3 using Vivado.
+- **Vivado:** ResNet-8's dot-product circuit and memories routed at 100 MHz. The 64-lane design used 89% of block RAM and would need about 4.95 ms per image for dot products alone. [Fit and timing results](docs/resnet8-fpga-fit.md)
+- **Next:** Benchmark a smaller CIFAR-10 model that can meet the speed target on the Basys 3.
 
 [Basys 3 setup and hardware tests](docs/basys3-setup.md) · [Camera capture guide](docs/capture-clips.md)
