@@ -3,6 +3,7 @@
 import hashlib
 import pickle
 import shutil
+import sys
 import tarfile
 from pathlib import Path
 from tempfile import NamedTemporaryFile
@@ -36,7 +37,7 @@ def verified_asset(name: str, url: str, checksum: str) -> Path:
         return destination
 
     destination.parent.mkdir(parents=True, exist_ok=True)
-    print(f"Downloading {name}", flush=True)
+    print(f"Downloading {name}", file=sys.stderr, flush=True)
     temporary = NamedTemporaryFile(dir=destination.parent, delete=False)
     pending = Path(temporary.name)
     try:
