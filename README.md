@@ -30,4 +30,10 @@ python ml/train.py
 - **Vivado:** ResNet-8's dot-product circuit and memories routed at 100 MHz. The 64-lane design used 89% of block RAM and would need about 4.95 ms per image for dot products alone. [Fit and timing results](docs/resnet8-fpga-fit.md)
 - **Next:** Benchmark a smaller CIFAR-10 model that can meet the speed target on the Basys 3.
 
+## Research: smaller models and faster hardware
+
+We reviewed Qismet and research on pruning, quantization, and FPGA inference. **Compression is worth testing, but its benefit must be measured on the hardware.** Qismet's published results do not establish a quantum advantage.
+
+The recommended experiment compares a directly trained smaller CNN with a structurally pruned model, using the existing INT8 ResNet-8 as the reference. [Read the findings, sources, and proposed experiment](docs/research/model-compression.md). This is a research recommendation; these experiments have not been run yet.
+
 [Basys 3 setup and hardware tests](docs/basys3-setup.md) · [Camera capture guide](docs/capture-clips.md)
