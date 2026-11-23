@@ -3,6 +3,7 @@
 import argparse
 import json
 import platform
+from datetime import datetime, timezone
 from importlib.metadata import version
 from pathlib import Path
 from tempfile import NamedTemporaryFile
@@ -139,6 +140,9 @@ def main() -> None:
         "host_classification_ms": latency_ms(host_ns),
         "python": platform.python_version(),
         "platform": platform.platform(),
+        "processor": platform.processor(),
+        "measured_at_utc": datetime.now(timezone.utc).isoformat(),
+        "runtime": f"LiteRT {version('ai-edge-litert')} CPU",
         "litert": version("ai-edge-litert"),
         "numpy": np.__version__,
     }
