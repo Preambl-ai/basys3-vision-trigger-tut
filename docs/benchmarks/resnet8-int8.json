@@ -38,5 +38,11 @@
     "images": 20,
     "classes_matching_cpu_delegate": 19,
     "score_vectors_matching_cpu_delegate": 10
+  },
+  "resources": {
+    "source": "Existing ResNet-8 weight export: ml/export_resnet8_fit.py; counts exclude biases and quantization metadata",
+    "kernel_weight_bytes": 77360,
+    "kernel_parameters": 77360,
+    "dense_macs_per_image": 12501632
   }
 }

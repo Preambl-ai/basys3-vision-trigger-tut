@@ -32,8 +32,8 @@ def make_report(paths: list[Path]) -> str:
         "# CIFAR-10 model comparison", "",
         "Measured CPU results: 10,000 official test images, batch one, one CPU thread.",
         "Runtime, date, and machine differences can affect timings. These are not FPGA measurements.", "",
-        "| Model | Runtime | Accuracy | Core median (ms) | Core p95 (ms) | Host median (ms) | Dense MACs | Kernel weight bytes |",
-        "| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |",
+        "| Model | Runtime | Accuracy | Core median (ms) | Core p95 (ms) | Host median (ms) | Dense MACs | Kernel parameters | Kernel weight bytes |",
+        "| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
     ]
     for r in results:
         runtime = r.get("runtime", f"LiteRT {r.get('litert', '?')}")
@@ -43,6 +43,7 @@ def make_report(paths: list[Path]) -> str:
             f"{r['inference_ms']['median']:.4f} | {r['inference_ms']['p95']:.4f} | "
             f"{r['host_classification_ms']['median']:.4f} | "
             f"{resource.get('dense_macs_per_image', 'unreported')} | "
+            f"{resource.get('kernel_parameters', 'unreported')} | "
             f"{resource.get('kernel_weight_bytes', 'unreported')} |"
         )
     lines.extend(["", "MAC counts cover convolution and linear products, including padded taps;",

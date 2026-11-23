@@ -23,5 +23,11 @@
   "python": "3.14.0",
   "platform": "Windows-11-10.0.26200-SP0",
   "litert": "2.3.0",
-  "numpy": "2.3.5"
+  "numpy": "2.3.5",
+  "resources": {
+    "source": "Existing ResNet-8 weight export: ml/export_resnet8_fit.py; counts exclude biases and quantization metadata",
+    "kernel_weight_bytes": 309440,
+    "kernel_parameters": 77360,
+    "dense_macs_per_image": 12501632
+  }
 }
