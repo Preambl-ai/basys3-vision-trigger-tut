@@ -4,9 +4,9 @@ A Preambl prototype for running a small camera classifier on a Basys 3 FPGA. The
 
 ## CIFAR-10 benchmark
 
-On 10,000 test images, ResNet-8 reached **87.19% at about 0.65 ms per image** in float32 and **86.97% at about 0.22 ms per image** with optimized INT8 CPU inference. These are median laptop timings. [Results and reproduction steps](docs/cifar10-baseline.md)
+On 10,000 test images, ResNet-8 reached **87.19% at about 0.48 ms per image** in float32 and **86.97% at about 0.18 ms per image** with optimized INT8 CPU inference in the latest run. These are median laptop timings. [Results and reproduction steps](docs/cifar10-baseline.md)
 
-The compact-model experiment adds a smaller CNN, a fixed training/validation split, INT8 export, and full-test CPU benchmarking. [Run the experiment](docs/compact-cifar10.md) · [Measured model comparison](docs/benchmarks/comparison.md)
+The new compact CNN scored **75.74% in float32 and 75.48% in INT8** after 20 training epochs. It uses fewer weights and operations, but misses our **85% accuracy target** and was slower than optimized INT8 ResNet-8 in these CPU runs. [Experiment and saved models](docs/compact-cifar10.md) · [Measured comparison](docs/benchmarks/comparison.md)
 
 ## Camera test
 
@@ -30,13 +30,13 @@ python ml/train.py
 
 - **On the board:** Verified the LED blink and USB serial echo, then sent a 32 × 32 test image and received all 1,024 pixels back.
 - **Vivado:** ResNet-8's dot-product circuit and memories routed at 100 MHz. The 64-lane design used 89% of block RAM and would need about 4.95 ms per image for dot products alone. [Fit and timing results](docs/resnet8-fpga-fit.md)
-- **Next:** Benchmark a smaller CIFAR-10 model that can meet the speed target on the Basys 3.
+- **Next:** Improve compact-model accuracy or test structural pruning, using validation data, before choosing a model for full FPGA implementation.
 
 ## Research: smaller models and faster hardware
 
 We reviewed Qismet and research on pruning, quantization, and FPGA inference. **Compression is worth testing, but its benefit must be measured on the hardware.** Qismet's published results do not establish a quantum advantage.
 
-The recommended experiment compares a directly trained smaller CNN with a structurally pruned model, using the existing INT8 ResNet-8 as the reference. [Read the findings, sources, and proposed experiment](docs/research/model-compression.md). This is a research recommendation; these experiments have not been run yet.
+The recommended experiment compares a directly trained smaller CNN with a structurally pruned model, using INT8 ResNet-8 as the reference. The first compact-model baseline is now measured; pruning and distillation have not been run. [Read the findings, sources, and proposed experiment](docs/research/model-compression.md).
 
 We also reviewed **RRAM and compute-in-memory** as a possible future research track. An RRAM computing array could work alongside an FPGA, but the Basys 3 cannot implement physical RRAM through a bitstream. [Read the RRAM findings, hardware options, and proposed evaluation](docs/research/rram-compute-in-memory.md). No RRAM simulation or hardware experiment has been run in this project.
 

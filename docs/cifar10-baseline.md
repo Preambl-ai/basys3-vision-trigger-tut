@@ -53,3 +53,9 @@ The built-in LiteRT reference kernels got **87.07% top-1 (8,707 of 10,000)** on 
 The first command also writes `runs/cifar10-baseline/int8-reference.npz`. It uses LiteRT's built-in reference kernels to generate the expected scores for the first two official test images of each class, selected by label and dataset order. The archive stores the signed 32 × 32 RGB inputs, all ten raw signed output scores per image, the classes with the highest score, the original test indices and labels, and the model and dataset hashes. Class ties use the lowest class index.
 
 The reference kernels and the optimized CPU path agreed on **19 of 20 top classes** and **10 of 20 exact score vectors** for these images. Use the built-in reference scores to check the hardware implementation. The optimized CPU path provides the laptop speed baseline.
+
+## Fresh comparison run — November 23, 2026
+
+I reran both optimized models after the compact-model training finished. Accuracy remained **87.19% float32** and **86.97% INT8** on all 10,000 test images. Median core inference was **0.4826 ms float32** and **0.1780 ms INT8** in these fresh single runs. Timing varies with system conditions; the original repeated measurements above remain the historical baseline.
+
+[Fresh float32 JSON](benchmarks/resnet8-float32-current.json) · [Fresh INT8 JSON](benchmarks/resnet8-int8-current.json) · [Compact-model comparison](compact-cifar10.md)

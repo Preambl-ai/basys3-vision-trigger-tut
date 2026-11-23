@@ -13,6 +13,33 @@ I added a smaller classifier to test whether reducing the model's work makes it 
 
 The model is trained from scratch as a compact baseline. This does not establish that custom training is better than pretrained models, pruning, or distillation. Those are later comparisons.
 
+## Measured result — November 23, 2026
+
+I completed the planned 20 epochs with seed 42. Training took about 15.5 minutes on the CPU. Epoch 20 had the best validation accuracy, **76.10%**, so that checkpoint was selected before evaluating the official test set.
+
+| Model | Test accuracy | Core median, run 1 | Core median, run 2 | Kernel weight bytes |
+| --- | ---: | ---: | ---: | ---: |
+| ResNet-8 float32, fresh reference run | 87.19% | 0.4826 ms | — | 309,440 |
+| ResNet-8 INT8, fresh reference run | 86.97% | 0.1780 ms | — | 77,360 |
+| Compact CNN float32 | 75.74% | 0.5302 ms | 0.5462 ms | 73,568 |
+| Compact CNN INT8 | 75.48% | 0.5531 ms | 0.4208 ms | 18,392 |
+
+Both compact runs produced identical full-test scores within each precision: **7,574/10,000 correct** for float32 and **7,548/10,000** for INT8. Quantization cost **0.26 percentage points** of test accuracy. I verified that calibration indices belonged only to the training partition, export hashes matched the saved files, and reference vectors matched the recorded predictions.
+
+The compact architecture uses **2,580,800 dense MACs** and **18,392 kernel parameters**, versus ResNet-8's **12,501,632 MACs** and **77,360 kernel parameters**. That is about **79% fewer dense products** and **76% fewer kernel weights**. Kernel storage excludes biases, quantization metadata, and hardware packing. Serialized export sizes are listed separately in the model manifest.
+
+**This candidate does not pass the 85% accuracy requirement.** It also did not beat optimized INT8 ResNet-8's CPU latency in these implementations. Smaller counts did not produce a better overall result. INT8 timing varied between runs; raw p95/p99 values are available, and these interactive-laptop timings are not controlled deployment measurements. No FPGA speedup or energy saving has been demonstrated.
+
+I would keep ResNet-8 as the accuracy reference and use validation data to investigate a stronger compact architecture, a longer training schedule, or structural pruning. This single limited-budget run does not establish the best accuracy this architecture could ever achieve. The official test results are now observed and must not become the tuning objective.
+
+### Saved proof
+
+- [Training settings](benchmarks/compact-cifar10/training/config.json), [history](benchmarks/compact-cifar10/training/history.json), [summary](benchmarks/compact-cifar10/training/summary.json), [split indices](benchmarks/compact-cifar10/training/split.npz), and [installed versions](benchmarks/compact-cifar10/training/environment.txt).
+- [Float32 result](benchmarks/compact-cifar10/float32.json) and [repeat](benchmarks/compact-cifar10/float32-repeat-2.json); [INT8 result](benchmarks/compact-cifar10/int8.json) and [repeat](benchmarks/compact-cifar10/int8-repeat-2.json).
+- [Full float predictions and timings](benchmarks/compact-cifar10/float32-predictions.npz) and [full INT8 predictions and timings](benchmarks/compact-cifar10/int8-predictions.npz). The folder also includes both repeat-run arrays and the 20-image regression references.
+- [Trained checkpoint, CPU exports, hashes, and replay instructions](../models/compact-cifar10/README.md).
+- [Generated comparison with fresh reference measurements](benchmarks/comparison.md).
+
 ## Set up
 
 Run from the repository root in PowerShell. A short environment path avoids Windows package installation path-length errors. This leaves the existing environments alone.
