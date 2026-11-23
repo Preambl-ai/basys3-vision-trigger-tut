@@ -6,6 +6,8 @@ A Preambl prototype for running a small camera classifier on a Basys 3 FPGA. The
 
 On 10,000 test images, ResNet-8 reached **87.19% at about 0.65 ms per image** in float32 and **86.97% at about 0.22 ms per image** with optimized INT8 CPU inference. These are median laptop timings. [Results and reproduction steps](docs/cifar10-baseline.md)
 
+The compact-model experiment adds a smaller CNN, a fixed training/validation split, INT8 export, and full-test CPU benchmarking. [Run the experiment](docs/compact-cifar10.md) · [Measured model comparison](docs/benchmarks/comparison.md)
+
 ## Camera test
 
 The two-layer CNN trained on **9 grayscale images** and correctly classified **9 out of 9 images from a separate recording** on the laptop. Each input is 32 × 32 pixels. This first test used one eraser and one tabletop setup.
