@@ -1,0 +1,42 @@
+{
+  "model": "MLPerf Tiny ResNet-8 int8",
+  "model_revision": "4addd0fa08d216e20637637874e084895f289da4",
+  "model_sha256": "3c002613d1b2475eb51dd78dfb85a546c8ae658dee71cf6ade43b022fe205415",
+  "dataset": "CIFAR-10 official test split",
+  "dataset_sha256": "6d958be074577803d12ecdefd02955f39262c83c16fe9348329d7fe0b5c001ce",
+  "test_images": 10000,
+  "top1_correct": 8697,
+  "top1_percent": 86.97,
+  "batch_size": 1,
+  "cpu_threads": 1,
+  "cpu_kernels": "LiteRT default",
+  "warmup_images": 200,
+  "inference_ms": {
+    "median": 0.2159,
+    "p95": 0.2966199999999997,
+    "p99": 0.4736320000000007
+  },
+  "host_classification_ms": {
+    "median": 0.2193,
+    "p95": 0.30380499999999994,
+    "p99": 0.49310800000000016
+  },
+  "python": "3.14.0",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "litert": "2.3.0",
+  "numpy": "2.3.5",
+  "input_quantization": {
+    "scale": 1.0,
+    "zero_point": -128
+  },
+  "output_quantization": {
+    "scale": 0.00390625,
+    "zero_point": -128
+  },
+  "reference_vectors": {
+    "path": "runs/cifar10-baseline/int8-reference.npz",
+    "images": 20,
+    "classes_matching_cpu_delegate": 19,
+    "score_vectors_matching_cpu_delegate": 10
+  }
+}

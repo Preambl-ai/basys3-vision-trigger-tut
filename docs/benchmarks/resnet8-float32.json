@@ -1,0 +1,27 @@
+{
+  "model": "MLPerf Tiny ResNet-8 float32",
+  "model_revision": "4addd0fa08d216e20637637874e084895f289da4",
+  "model_sha256": "b5c0046d6e0328b4956afd6baa29555a29b1f1c65bdd45aaed75b7cd484d9f79",
+  "dataset": "CIFAR-10 official test split",
+  "dataset_sha256": "6d958be074577803d12ecdefd02955f39262c83c16fe9348329d7fe0b5c001ce",
+  "test_images": 10000,
+  "top1_correct": 8719,
+  "top1_percent": 87.19,
+  "batch_size": 1,
+  "cpu_threads": 1,
+  "warmup_images": 200,
+  "inference_ms": {
+    "median": 0.6544,
+    "p95": 1.0759099999999997,
+    "p99": 1.580745000000001
+  },
+  "host_classification_ms": {
+    "median": 0.6626,
+    "p95": 1.1054,
+    "p99": 1.6172130000000025
+  },
+  "python": "3.14.0",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "litert": "2.3.0",
+  "numpy": "2.3.5"
+}
