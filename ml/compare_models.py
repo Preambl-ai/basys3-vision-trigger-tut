@@ -32,6 +32,7 @@ def make_report(paths: list[Path]) -> str:
         "# CIFAR-10 model comparison", "",
         "Measured CPU results: 10,000 official test images, batch one, one CPU thread.",
         "Runtime, date, and machine differences can affect timings. These are not FPGA measurements.", "",
+        "The project requires at least 85% accuracy. A smaller or faster model below that threshold does not pass.", "",
         "| Model | Runtime | Accuracy | Core median (ms) | Core p95 (ms) | Host median (ms) | Dense MACs | Kernel parameters | Kernel weight bytes |",
         "| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
     ]

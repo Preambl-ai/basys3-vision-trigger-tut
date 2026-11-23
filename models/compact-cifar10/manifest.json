@@ -1,0 +1,22 @@
+{
+  "architecture": "compact-cifar10-8-16-32-v1",
+  "dataset_sha256": "6d958be074577803d12ecdefd02955f39262c83c16fe9348329d7fe0b5c001ce",
+  "seed": 42,
+  "selected_epoch": 20,
+  "torch": "2.9.0+cpu",
+  "quantized_backend": "onednn",
+  "artifacts": {
+    "checkpoint.pt": {
+      "sha256": "e2a302f33ba86a1376096fc2dfec95f585c6a7dfa30042d5916b69949d5b2aeb",
+      "bytes": 86701
+    },
+    "float32.ts": {
+      "sha256": "365ff0d95f56788d75a07b8765a690b892114e6871e1b9c03adfca2f7ff8ac82",
+      "bytes": 127677
+    },
+    "int8.ts": {
+      "sha256": "f6c2f1c1d81b31f5525cfd855b8bd2f5d4f73827e22b9933ffb45125cb3b931b",
+      "bytes": 77687
+    }
+  }
+}

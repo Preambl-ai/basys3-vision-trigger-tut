@@ -1,0 +1,37 @@
+{
+  "model": "MLPerf Tiny ResNet-8 float32",
+  "model_revision": "4addd0fa08d216e20637637874e084895f289da4",
+  "model_sha256": "b5c0046d6e0328b4956afd6baa29555a29b1f1c65bdd45aaed75b7cd484d9f79",
+  "dataset": "CIFAR-10 official test split",
+  "dataset_sha256": "6d958be074577803d12ecdefd02955f39262c83c16fe9348329d7fe0b5c001ce",
+  "test_images": 10000,
+  "top1_correct": 8719,
+  "top1_percent": 87.19,
+  "batch_size": 1,
+  "cpu_threads": 1,
+  "cpu_kernels": "LiteRT default",
+  "warmup_images": 200,
+  "inference_ms": {
+    "median": 0.4826,
+    "p95": 0.7928149999999997,
+    "p99": 2.558569000000004
+  },
+  "host_classification_ms": {
+    "median": 0.48685,
+    "p95": 0.8033349999999996,
+    "p99": 2.5941700000000036
+  },
+  "python": "3.14.0",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "processor": "Intel64 Family 6 Model 170 Stepping 4, GenuineIntel",
+  "measured_at_utc": "2026-11-23T05:17:47.023118+00:00",
+  "runtime": "LiteRT 2.3.0 CPU",
+  "litert": "2.3.0",
+  "numpy": "2.3.5",
+  "resources": {
+    "source": "Existing ResNet-8 weight export: ml/export_resnet8_fit.py; counts exclude biases and quantization metadata",
+    "kernel_weight_bytes": 309440,
+    "kernel_parameters": 77360,
+    "dense_macs_per_image": 12501632
+  }
+}

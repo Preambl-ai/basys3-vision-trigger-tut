@@ -1,0 +1,137 @@
+{
+  "model": "CompactCNN float32",
+  "architecture": "compact-cifar10-8-16-32-v1",
+  "model_sha256": "365ff0d95f56788d75a07b8765a690b892114e6871e1b9c03adfca2f7ff8ac82",
+  "checkpoint_sha256": "e2a302f33ba86a1376096fc2dfec95f585c6a7dfa30042d5916b69949d5b2aeb",
+  "selected_epoch": 20,
+  "seed": 42,
+  "float_validation_percent": 76.1,
+  "dataset": "CIFAR-10 official test split",
+  "dataset_sha256": "6d958be074577803d12ecdefd02955f39262c83c16fe9348329d7fe0b5c001ce",
+  "test_images": 10000,
+  "top1_correct": 7574,
+  "top1_percent": 75.74,
+  "batch_size": 1,
+  "cpu_threads": 1,
+  "warmup_images": 200,
+  "runtime": "PyTorch 2.9.0+cpu TorchScript CPU",
+  "inference_ms": {
+    "median": 0.5462,
+    "p95": 4.728469999999999,
+    "p99": 8.379099000000034
+  },
+  "host_classification_ms": {
+    "median": 0.57365,
+    "p95": 4.7846,
+    "p99": 8.754019000000005
+  },
+  "timing_scope": "core=forward; host=copy prepared float input, forward, argmax; excludes decoding/preprocessing",
+  "resources": {
+    "trainable_parameters": 18626,
+    "kernel_parameters": 18392,
+    "kernel_weight_bytes": 73568,
+    "int8_kernel_weight_bytes": 18392,
+    "dense_macs_per_image": 2580800,
+    "layers": [
+      {
+        "kind": "Conv2d",
+        "output_shape": [
+          1,
+          8,
+          32,
+          32
+        ],
+        "kernel_parameters": 216,
+        "dense_macs": 221184
+      },
+      {
+        "kind": "Conv2d",
+        "output_shape": [
+          1,
+          8,
+          32,
+          32
+        ],
+        "kernel_parameters": 576,
+        "dense_macs": 589824
+      },
+      {
+        "kind": "Conv2d",
+        "output_shape": [
+          1,
+          16,
+          16,
+          16
+        ],
+        "kernel_parameters": 1152,
+        "dense_macs": 294912
+      },
+      {
+        "kind": "Conv2d",
+        "output_shape": [
+          1,
+          16,
+          16,
+          16
+        ],
+        "kernel_parameters": 2304,
+        "dense_macs": 589824
+      },
+      {
+        "kind": "Conv2d",
+        "output_shape": [
+          1,
+          32,
+          8,
+          8
+        ],
+        "kernel_parameters": 4608,
+        "dense_macs": 294912
+      },
+      {
+        "kind": "Conv2d",
+        "output_shape": [
+          1,
+          32,
+          8,
+          8
+        ],
+        "kernel_parameters": 9216,
+        "dense_macs": 589824
+      },
+      {
+        "kind": "Linear",
+        "output_shape": [
+          1,
+          10
+        ],
+        "kernel_parameters": 320,
+        "dense_macs": 320
+      }
+    ]
+  },
+  "torch": "2.9.0+cpu",
+  "numpy": "2.3.5",
+  "python": "3.14.0",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "processor": "Intel64 Family 6 Model 170 Stepping 4, GenuineIntel",
+  "measured_at_utc": "2026-11-23T05:18:09.779564+00:00",
+  "serialized_model_bytes": 127677,
+  "quantization_details": {},
+  "per_class_correct": [
+    776,
+    921,
+    612,
+    546,
+    679,
+    719,
+    823,
+    787,
+    859,
+    852
+  ],
+  "reference_vectors": {
+    "images": 20,
+    "format": "RGB bytes and dequantized float scores; CPU regression reference"
+  }
+}
