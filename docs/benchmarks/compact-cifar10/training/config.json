@@ -1,0 +1,103 @@
+{
+  "epochs": 20,
+  "batch_size": 128,
+  "threads": 4,
+  "seed": 42,
+  "output": "runs\\compact-cifar10\\seed-42",
+  "architecture": "compact-cifar10-8-16-32-v1",
+  "dataset_sha256": "6d958be074577803d12ecdefd02955f39262c83c16fe9348329d7fe0b5c001ce",
+  "training_images": 45000,
+  "validation_images": 5000,
+  "test_images_used_in_training": 0,
+  "preprocessing": "RGB NCHW float32 / 255; train-only reflection crop and flip",
+  "optimizer": "AdamW lr=0.003 weight_decay=0.0005; cosine to 0.00003",
+  "checkpoint_selection": "highest validation accuracy; earliest epoch wins ties",
+  "torch": "2.9.0+cpu",
+  "numpy": "2.3.5",
+  "python": "3.14.0",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "resources": {
+    "trainable_parameters": 18626,
+    "kernel_parameters": 18392,
+    "kernel_weight_bytes": 73568,
+    "int8_kernel_weight_bytes": 18392,
+    "dense_macs_per_image": 2580800,
+    "layers": [
+      {
+        "kind": "Conv2d",
+        "output_shape": [
+          1,
+          8,
+          32,
+          32
+        ],
+        "kernel_parameters": 216,
+        "dense_macs": 221184
+      },
+      {
+        "kind": "Conv2d",
+        "output_shape": [
+          1,
+          8,
+          32,
+          32
+        ],
+        "kernel_parameters": 576,
+        "dense_macs": 589824
+      },
+      {
+        "kind": "Conv2d",
+        "output_shape": [
+          1,
+          16,
+          16,
+          16
+        ],
+        "kernel_parameters": 1152,
+        "dense_macs": 294912
+      },
+      {
+        "kind": "Conv2d",
+        "output_shape": [
+          1,
+          16,
+          16,
+          16
+        ],
+        "kernel_parameters": 2304,
+        "dense_macs": 589824
+      },
+      {
+        "kind": "Conv2d",
+        "output_shape": [
+          1,
+          32,
+          8,
+          8
+        ],
+        "kernel_parameters": 4608,
+        "dense_macs": 294912
+      },
+      {
+        "kind": "Conv2d",
+        "output_shape": [
+          1,
+          32,
+          8,
+          8
+        ],
+        "kernel_parameters": 9216,
+        "dense_macs": 589824
+      },
+      {
+        "kind": "Linear",
+        "output_shape": [
+          1,
+          10
+        ],
+        "kernel_parameters": 320,
+        "dense_macs": 320
+      }
+    ]
+  }
+}
