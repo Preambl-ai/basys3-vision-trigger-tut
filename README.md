@@ -36,4 +36,6 @@ We reviewed Qismet and research on pruning, quantization, and FPGA inference. **
 
 The recommended experiment compares a directly trained smaller CNN with a structurally pruned model, using the existing INT8 ResNet-8 as the reference. [Read the findings, sources, and proposed experiment](docs/research/model-compression.md). This is a research recommendation; these experiments have not been run yet.
 
+We also reviewed **RRAM and compute-in-memory** as a possible future research track. An RRAM computing array could work alongside an FPGA, but the Basys 3 cannot implement physical RRAM through a bitstream. [Read the RRAM findings, hardware options, and proposed evaluation](docs/research/rram-compute-in-memory.md). No RRAM simulation or hardware experiment has been run in this project.
+
 [Basys 3 setup and hardware tests](docs/basys3-setup.md) · [Camera capture guide](docs/capture-clips.md)
