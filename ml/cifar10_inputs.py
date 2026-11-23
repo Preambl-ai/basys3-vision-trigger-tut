@@ -1,5 +1,7 @@
 """Download and verify inputs for the CIFAR-10 laptop benchmark."""
 
+from __future__ import annotations
+
 import hashlib
 import pickle
 import shutil
@@ -10,7 +12,6 @@ from tempfile import NamedTemporaryFile
 from urllib.request import urlopen
 
 import numpy as np
-from ai_edge_litert.interpreter import Interpreter, OpResolverType
 
 ASSETS = Path("runs/cifar10-baseline/assets")
 MLPERF_REVISION = "4addd0fa08d216e20637637874e084895f289da4"
@@ -83,6 +84,8 @@ def load_test_set() -> tuple[np.ndarray, np.ndarray]:
 def open_reference_model(
     *, int8: bool = False, reference_kernels: bool = False
 ) -> tuple[Interpreter, int, int]:
+    from ai_edge_litert.interpreter import Interpreter, OpResolverType
+
     if int8:
         path = verified_asset(
             "resnet8-int8.tflite", f"{MODEL_DIRECTORY_URL}/pretrainedResnet_quant.tflite", INT8_MODEL_SHA256
@@ -113,6 +116,46 @@ def open_reference_model(
     ):
         raise ValueError("Unexpected input or output quantization for the reference model")
     return interpreter, model_input["index"], model_output["index"]
+
+
+def load_training_set() -> tuple[np.ndarray, np.ndarray]:
+    """Read only the 50,000 official training images, in release order."""
+    archive = verified_asset("cifar-10-python.tar.gz", DATASET_URL, DATASET_SHA256)
+    batches = []
+    targets = []
+    with tarfile.open(archive, "r:gz") as release:
+        for number in range(1, 6):
+            member = release.extractfile(f"cifar-10-batches-py/data_batch_{number}")
+            if member is None:
+                raise ValueError(f"Missing CIFAR-10 training batch {number}")
+            with member:
+                batch = pickle.load(member, encoding="bytes")
+            batches.append(batch[b"data"])
+            targets.extend(batch[b"labels"])
+    pixels = np.concatenate(batches)
+    labels = np.asarray(targets, dtype=np.int64)
+    if pixels.shape != (50_000, 3072) or pixels.dtype != np.uint8:
+        raise ValueError("Expected 50,000 packed RGB training images")
+    classes, counts = np.unique(labels, return_counts=True)
+    if not np.array_equal(classes, np.arange(CLASS_COUNT)) or not np.all(counts == 5_000):
+        raise ValueError("Expected 5,000 training labels per class")
+    images = pixels.reshape(-1, 3, 32, 32).transpose(0, 2, 3, 1)
+    return np.ascontiguousarray(images), labels
+
+
+def training_indices(labels: np.ndarray, seed: int = 42) -> tuple[np.ndarray, np.ndarray]:
+    """Fix a stratified 45,000/5,000 split without touching official test data."""
+    if labels.shape != (50_000,):
+        raise ValueError("Split expects the official training labels")
+    rng = np.random.default_rng(seed)
+    train, validation = [], []
+    for label in range(CLASS_COUNT):
+        indices = rng.permutation(np.flatnonzero(labels == label))
+        if len(indices) != 5_000:
+            raise ValueError("Split expects exactly 5,000 examples per class")
+        validation.extend(indices[:500])
+        train.extend(indices[500:])
+    return np.sort(train), np.sort(validation)
 
 
 if __name__ == "__main__":
