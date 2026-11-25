@@ -40,4 +40,6 @@ The recommended experiment compares a directly trained smaller CNN with a struct
 
 We also reviewed **RRAM and compute-in-memory** as a possible future research track. An RRAM computing array could work alongside an FPGA, but the Basys 3 cannot implement physical RRAM through a bitstream. [Read the RRAM findings, hardware options, and proposed evaluation](docs/research/rram-compute-in-memory.md). No RRAM simulation or hardware experiment has been run in this project.
 
+Our **ROMA review** examines fixed model weights with small, updateable adapters, related vision designs, and possible instrument applications. The proposed next experiment is a small fixed feature extractor with a writable classifier. ROMA's headline results are ASIC design projections, and this architecture has existing prior art. [Read the evidence, limitations, and proposed experiment](docs/research/roma-fixed-model-adapters.md). No adapter experiment has been run in this project.
+
 [Basys 3 setup and hardware tests](docs/basys3-setup.md) · [Camera capture guide](docs/capture-clips.md)
