@@ -32,6 +32,7 @@ No new training, benchmark, sensor purchase, implementation, or customer intervi
 - [Datasets, baselines, and reproducible evaluation](datasets-validation.md)
 - [Competition, customer alternatives, and commercial tests](competition-business.md)
 - [Proposed system architecture and update protocol](system-design.md)
+- [Proposed execution plan](execution-plan.md)
 
 ## Related project research
 

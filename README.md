@@ -42,4 +42,6 @@ We also reviewed **RRAM and compute-in-memory** as a possible future research tr
 
 Our **ROMA review** examines fixed model weights with small, updateable adapters, related vision designs, and possible instrument applications. The proposed next experiment is a small fixed feature extractor with a writable classifier. ROMA's headline results are ASIC design projections, and this architecture has existing prior art. [Read the evidence, limitations, and proposed experiment](docs/research/roma-fixed-model-adapters.md). No adapter experiment has been run in this project.
 
+Our [scientific-instrument research guide](docs/research/adaptable-instruments/README.md) covers applications, fixed/updateable hardware, adaptation, datasets, competing products, integration, and decision gates, with 40 evidence sources. Existing commercial overlap means this remains a hypothesis to validate; no new instrument experiment has been run.
+
 [Basys 3 setup and hardware tests](docs/basys3-setup.md) · [Camera capture guide](docs/capture-clips.md)
