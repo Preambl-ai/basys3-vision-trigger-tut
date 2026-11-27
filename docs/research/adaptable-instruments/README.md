@@ -26,6 +26,7 @@ No new training, benchmark, sensor purchase, implementation, or customer intervi
 ## Reading order
 
 - [Evidence register](sources.md): scope, version, and limit for each source.
+- [Where inference could help an instrument](workflows.md)
 
 ## Related project research
 
