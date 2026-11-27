@@ -27,6 +27,7 @@ No new training, benchmark, sensor purchase, implementation, or customer intervi
 
 - [Evidence register](sources.md): scope, version, and limit for each source.
 - [Where inference could help an instrument](workflows.md)
+- [Hardware approaches and toolchains](hardware.md)
 
 ## Related project research
 
