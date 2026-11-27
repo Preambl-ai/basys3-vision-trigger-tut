@@ -1,0 +1,406 @@
+{
+  "reviewed": "2026-11-26",
+  "scope": "Bounded public-source review; not exhaustive or independently reproduced",
+  "sources": [
+    {
+      "id": "S01",
+      "title": "ROMA v2",
+      "url": "https://arxiv.org/abs/2503.12988v2",
+      "evidence_type": "Architecture paper; synthesis/estimated power",
+      "version": "2026-03-02, v2",
+      "supports": "Fixed base weights with writable adapters; custom ROM layout.",
+      "limitation": "No fabricated ROMA result established; see existing detailed repository review.",
+      "reviewed": "2026-11-26"
+    },
+    {
+      "id": "S02",
+      "title": "FixyNN",
+      "url": "https://arxiv.org/abs/1902.11128",
+      "evidence_type": "Research evaluation",
+      "version": "2019",
+      "supports": "Fixed vision features with a programmable back end.",
+      "limitation": "Transfer results cover selected datasets, not arbitrary new tasks.",
+      "reviewed": "2026-11-26"
+    },
+    {
+      "id": "S03",
+      "title": "YOLoC",
+      "url": "https://arxiv.org/abs/2206.00379",
+      "evidence_type": "Architecture research",
+      "version": "2022, DAC",
+      "supports": "ROM computation plus an SRAM residual branch.",
+      "limitation": "Different physical implementation from the Basys 3.",
+      "reviewed": "2026-11-26"
+    },
+    {
+      "id": "S04",
+      "title": "LogicNets",
+      "url": "https://arxiv.org/abs/2004.03021",
+      "evidence_type": "FPGA circuit research",
+      "version": "2020",
+      "supports": "Sparse quantized networks mapped to truth-table circuits.",
+      "limitation": "Fan-in growth restricts useful topologies; headline latency is task-specific.",
+      "reviewed": "2026-11-26"
+    },
+    {
+      "id": "S05",
+      "title": "hls4ml FAQ",
+      "url": "https://fastmachinelearning.org/hls4ml/intro/faq.html",
+      "evidence_type": "Official tool documentation",
+      "version": "1.3.1 page reviewed",
+      "supports": "Neural-model conversion and spatial parallelism.",
+      "limitation": "Layer support and FPGA fit require actual tool evaluation.",
+      "reviewed": "2026-11-26"
+    },
+    {
+      "id": "S06",
+      "title": "hls4ml external BRAM weights",
+      "url": "https://fastmachinelearning.org/hls4ml/advanced/bramfactor.html",
+      "evidence_type": "Official tool documentation",
+      "version": "1.3.0 page reviewed",
+      "supports": "Exposed BRAM ports can support a user-built weight loader.",
+      "limitation": "Documentation flags reimplementation; not a ready-made atomic update system.",
+      "reviewed": "2026-11-26"
+    },
+    {
+      "id": "S07",
+      "title": "FINN memory modes",
+      "url": "https://finn.readthedocs.io/en/latest/reference/mem-modes.html",
+      "evidence_type": "Official tool documentation",
+      "version": "Live page reviewed",
+      "supports": "Parameter storage modes depend on layer/backend.",
+      "limitation": "External storage does not itself guarantee runtime updates for every layer.",
+      "reviewed": "2026-11-26"
+    },
+    {
+      "id": "S08",
+      "title": "AMD ROM_STYLE",
+      "url": "https://docs.amd.com/r/2022.2-English/ug901-vivado-synthesis/ROM_STYLE",
+      "evidence_type": "Vendor implementation documentation",
+      "version": "UG901, 2022.2",
+      "supports": "FPGA ROM can map into BRAM or LUT resources.",
+      "limitation": "Does not create dense custom mask ROM.",
+      "reviewed": "2026-11-26"
+    },
+    {
+      "id": "S09",
+      "title": "Basys 3 reference manual",
+      "url": "https://digilent.com/reference/_media/reference/programmable-logic/basys-3/basys3_rm.pdf",
+      "evidence_type": "Board documentation",
+      "version": "Published manual",
+      "supports": "1,800 Kbits BRAM and 90 DSP slices.",
+      "limitation": "Available resources do not imply a full model or sensor interface fits.",
+      "reviewed": "2026-11-26"
+    },
+    {
+      "id": "S10",
+      "title": "RNN coupled to SPAD TCSPC for FLIM",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10853568/",
+      "evidence_type": "Peer-reviewed experimental instrument",
+      "version": "2024; Scientific Reports 14, 3286",
+      "supports": "Timestamp-to-lifetime processing demonstrated on a Kintex-7 microscope system.",
+      "limitation": "Specific sensor, estimator, and optical conditions; no Preambl results.",
+      "reviewed": "2026-11-26"
+    },
+    {
+      "id": "S11",
+      "title": "FLAN: compact FLIM network",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/36863024/",
+      "evidence_type": "Primary paper abstract",
+      "version": "2023",
+      "supports": "Adder-based lifetime estimation with FPGA implementation.",
+      "limitation": "Abstract review supports approach, not a fully reproduced performance comparison.",
+      "reviewed": "2026-11-26"
+    },
+    {
+      "id": "S12",
+      "title": "Event-driven acquisition",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7613693/",
+      "evidence_type": "Peer-reviewed experimental microscopy",
+      "version": "2022; Nature Methods",
+      "supports": "Learned event recognition changes acquisition rate during experiments.",
+      "limitation": "Actuation and scheduling matter; this is not an FPGA speed demonstration.",
+      "reviewed": "2026-11-26"
+    },
+    {
+      "id": "S13",
+      "title": "QubiCML v5",
+      "url": "https://arxiv.org/abs/2406.18807v5",
+      "evidence_type": "Experimental quantum-readout paper; versioned abstract",
+      "version": "2026-09-13, v5",
+      "supports": "Current abstract reports 40 ns FPGA state inference.",
+      "limitation": "Core inference differs from readout and complete feedback; older summary reports 54 ns.",
+      "reviewed": "2026-11-26"
+    },
+    {
+      "id": "S14",
+      "title": "QICK documentation",
+      "url": "https://docs.qick.dev/latest/",
+      "evidence_type": "Open instrumentation documentation",
+      "version": "Live documentation",
+      "supports": "RFSoC firmware, software, and real-time control ecosystem.",
+      "limitation": "Requires supported RFSoC hardware and RF engineering.",
+      "reviewed": "2026-11-26"
+    },
+    {
+      "id": "S15",
+      "title": "QubiC project",
+      "url": "https://lbl-qubic.gitlab.io/",
+      "evidence_type": "Lab project documentation",
+      "version": "QubiC 2.0",
+      "supports": "Existing open FPGA control, gateware, and calibration infrastructure.",
+      "limitation": "Existing ecosystem, not an unoccupied startup market.",
+      "reviewed": "2026-11-26"
+    },
+    {
+      "id": "S16",
+      "title": "Deep calibration transfer",
+      "url": "https://sapientia.ualg.pt/server/api/core/bitstreams/97879f02-7363-4c0d-9a35-02eb1a533e2c/content",
+      "evidence_type": "Peer-reviewed primary paper",
+      "version": "2021; Infrared Physics and Technology 117, 103863",
+      "supports": "Transfer learning across benchtop and handheld infrared instruments.",
+      "limitation": "Standard-free does not imply no target data, reference values, or validation.",
+      "reviewed": "2026-11-26"
+    },
+    {
+      "id": "S17",
+      "title": "Adaptive ANN calibration transfer",
+      "url": "https://www.sciencedirect.com/science/article/pii/S016974392200185X",
+      "evidence_type": "Primary paper abstract",
+      "version": "2022; Chemometrics 230, 104674",
+      "supports": "Evaluates adaptation against calibration-transfer alternatives.",
+      "limitation": "Abstract review; not hardware deployment or universal superiority.",
+      "reviewed": "2026-11-26"
+    },
+    {
+      "id": "S18",
+      "title": "Eigenvector datasets",
+      "url": "https://eigenvector.com/resources/data-sets/",
+      "evidence_type": "Dataset custodian",
+      "version": "Live catalog",
+      "supports": "Paired corn spectra and additional spectroscopy/fault datasets.",
+      "limitation": "Public download does not establish unrestricted redistribution rights.",
+      "reviewed": "2026-11-26"
+    },
+    {
+      "id": "S19",
+      "title": "UCI Gas Sensor Array Drift",
+      "url": "https://archive.ics.uci.edu/dataset/224/gas+sensor+array+drift+dataset",
+      "evidence_type": "Dataset custodian",
+      "version": "2012 donation; DOI 10.24432/C5RP6W",
+      "supports": "Sensor measurements organized for drift research; CC BY 4.0.",
+      "limitation": "Not raw fast acquisition or a real-time FPGA benchmark.",
+      "reviewed": "2026-11-26"
+    },
+    {
+      "id": "S20",
+      "title": "EDA data archive",
+      "url": "https://zenodo.org/records/5548355",
+      "evidence_type": "Author data deposit",
+      "version": "0.1.0, 2021-10-04",
+      "supports": "Microscopy recordings and training archive.",
+      "limitation": "Record predates the final publication; license and split need inspection before reuse.",
+      "reviewed": "2026-11-26"
+    },
+    {
+      "id": "S21",
+      "title": "RnnFlim code",
+      "url": "https://github.com/Yang-J-LIN/RnnFlim",
+      "evidence_type": "Author implementation",
+      "version": "Live repository",
+      "supports": "Starting point associated with the FLIM paper.",
+      "limitation": "No reproduction performed; inspect dependencies and license before reuse.",
+      "reviewed": "2026-11-26"
+    },
+    {
+      "id": "S22",
+      "title": "EDA code",
+      "url": "https://github.com/LEB-EPFL/EDA",
+      "evidence_type": "Author implementation",
+      "version": "Live repository",
+      "supports": "Existing event-driven microscope-control implementation.",
+      "limitation": "Hardware compatibility and deployment timing remain setup-specific.",
+      "reviewed": "2026-11-26"
+    },
+    {
+      "id": "S23",
+      "title": "Moku Neural Network",
+      "url": "https://liquidinstruments.com/neural-network/",
+      "evidence_type": "Commercial vendor description",
+      "version": "Live product page",
+      "supports": "Already offers inline neural signal processing and feedback.",
+      "limitation": "Vendor capability statement; no independent Preambl comparison.",
+      "reviewed": "2026-11-26"
+    },
+    {
+      "id": "S24",
+      "title": "Moku neural-model tutorial",
+      "url": "https://next.documentation.liquidinstruments.com/mnn/examples/Simple_sine.html",
+      "evidence_type": "Vendor implementation tutorial",
+      "version": "Live documentation",
+      "supports": "Documents feedforward network export, scaling, and clipping.",
+      "limitation": "Support is platform/version-specific; not evidence of arbitrary model support.",
+      "reviewed": "2026-11-26"
+    },
+    {
+      "id": "S25",
+      "title": "Photon Force firmware customization",
+      "url": "https://www.photon-force.com/services/firmware-customisation/",
+      "evidence_type": "Commercial vendor description",
+      "version": "Live service page",
+      "supports": "In-camera processing addresses raw-data transfer constraints.",
+      "limitation": "Direct overlap; does not establish a need to buy Preambl.",
+      "reviewed": "2026-11-26"
+    },
+    {
+      "id": "S26",
+      "title": "Swabian conditional filter",
+      "url": "https://www.swabianinstruments.com/static/documentation/TimeTagger/InDepthGuides/ConditionalFilter.html",
+      "evidence_type": "Vendor technical manual",
+      "version": "2.22.6.0 documentation",
+      "supports": "Hardware rules reduce irrelevant time tags before transfer.",
+      "limitation": "A learned method must improve on appropriate existing rules.",
+      "reviewed": "2026-11-26"
+    },
+    {
+      "id": "S27",
+      "title": "ONE WARE",
+      "url": "https://one-ware.com/",
+      "evidence_type": "Commercial vendor description",
+      "version": "Live product page",
+      "supports": "Hardware-targeted vision and OEM deployment offering.",
+      "limitation": "Marketing/testimonials are not independent benchmarks.",
+      "reviewed": "2026-11-26"
+    },
+    {
+      "id": "S28",
+      "title": "ConfigAI",
+      "url": "https://www.configai.co/",
+      "evidence_type": "Startup vendor description",
+      "version": "Live product page",
+      "supports": "Automated ML-to-FPGA mapping and code generation offering.",
+      "limitation": "Compilation-time and compatibility claims not independently tested.",
+      "reviewed": "2026-11-26"
+    },
+    {
+      "id": "S29",
+      "title": "ZEISS Smart Acquisition Toolkit",
+      "url": "https://www.zeiss.com/microscopy/en/products/software/zeiss-zen/smart-acquisition-toolkit.html",
+      "evidence_type": "Commercial instrument vendor",
+      "version": "Live product page",
+      "supports": "Guided acquisition and image-analysis feedback already exist.",
+      "limitation": "Platform-specific capability; not proof all OEM needs are solved.",
+      "reviewed": "2026-11-26"
+    },
+    {
+      "id": "S30",
+      "title": "Pycro-Manager",
+      "url": "https://pycro-manager.readthedocs.io/en/latest/",
+      "evidence_type": "Open software documentation",
+      "version": "Live documentation",
+      "supports": "Microscope automation, image processing, and control components.",
+      "limitation": "Python orchestration is not a hard real-time timing guarantee.",
+      "reviewed": "2026-11-26"
+    },
+    {
+      "id": "S31",
+      "title": "NIREOS HERA",
+      "url": "https://nireos.com/hera-hyperspectral-cameras/",
+      "evidence_type": "Commercial instrument vendor",
+      "version": "Live product page",
+      "supports": "Relevant hyperspectral instrument category for discovery.",
+      "limitation": "No documented Preambl purchase interest or measured bottleneck.",
+      "reviewed": "2026-11-26"
+    },
+    {
+      "id": "S32",
+      "title": "LoRA",
+      "url": "https://arxiv.org/abs/2106.09685",
+      "evidence_type": "Primary adaptation research",
+      "version": "2021",
+      "supports": "Low-rank trainable updates around frozen weights.",
+      "limitation": "Language-model results do not prove sensor transfer; unmerged adapters add work.",
+      "reviewed": "2026-11-26"
+    },
+    {
+      "id": "S33",
+      "title": "TinyTL",
+      "url": "https://arxiv.org/abs/2007.11622",
+      "evidence_type": "Primary adaptation research",
+      "version": "2020",
+      "supports": "Frozen weights with small trainable components for efficient learning.",
+      "limitation": "Training memory differs from inference memory and circuit area.",
+      "reviewed": "2026-11-26"
+    },
+    {
+      "id": "S34",
+      "title": "Tent",
+      "url": "https://arxiv.org/abs/2006.10726",
+      "evidence_type": "Primary adaptation research",
+      "version": "2020 submission",
+      "supports": "Test-time entropy optimization and normalization updates.",
+      "limitation": "Benchmark success is not a guarantee of stable online instrument adaptation.",
+      "reviewed": "2026-11-26"
+    },
+    {
+      "id": "S35",
+      "title": "Neural confidence calibration",
+      "url": "https://arxiv.org/abs/1706.04599",
+      "evidence_type": "Primary uncertainty research",
+      "version": "2017",
+      "supports": "Confidence can be miscalibrated; studies temperature scaling.",
+      "limitation": "Calibrated confidence is not universal out-of-distribution detection.",
+      "reviewed": "2026-11-26"
+    },
+    {
+      "id": "S36",
+      "title": "AMD AXI stream handshake",
+      "url": "https://docs.amd.com/r/en-US/pg080-axi-fifo-mm-s/Port-Descriptions",
+      "evidence_type": "Vendor interface documentation",
+      "version": "PG080, 4.3",
+      "supports": "Transfer occurs when valid and ready are both asserted.",
+      "limitation": "Application must still handle a sensor that cannot pause.",
+      "reviewed": "2026-11-26"
+    },
+    {
+      "id": "S37",
+      "title": "DeepFreeze",
+      "url": "https://github.com/ARM-software/DeepFreeze",
+      "evidence_type": "Research implementation",
+      "version": "Live repository",
+      "supports": "Fixed-network hardware-generation precedent.",
+      "limitation": "Research code has documented limitations; no adoption or reproduction here.",
+      "reviewed": "2026-11-26"
+    },
+    {
+      "id": "S38",
+      "title": "FixyFPGA",
+      "url": "https://developer.arm.com/community/arm-research/b/articles/posts/fixyfpga-fully-parallel-fully-pipelined-fpga-accelerator-for-sparse-cnns",
+      "evidence_type": "Author technical explanation",
+      "version": "2021",
+      "supports": "Sparse fixed-weight CNN hardware; pruning/quantization constraints.",
+      "limitation": "Benefits are design-specific and do not guarantee Basys 3 fit.",
+      "reviewed": "2026-11-26"
+    },
+    {
+      "id": "S39",
+      "title": "MemryX FAQ",
+      "url": "https://developer.memryx.com/support/faq.html",
+      "evidence_type": "Commercial technical documentation",
+      "version": "Live documentation",
+      "supports": "Model mapping depends on more than parameter capacity.",
+      "limitation": "Different architecture; benchmark the actual workload before comparing.",
+      "reviewed": "2026-11-26"
+    },
+    {
+      "id": "S40",
+      "title": "Mythic M1",
+      "url": "https://www.mythic.ai/m-1",
+      "evidence_type": "Commercial vendor description",
+      "version": "Live product page",
+      "supports": "On-chip weights and analog inference are existing alternatives.",
+      "limitation": "Vendor speed/power claims not independently validated here.",
+      "reviewed": "2026-11-26"
+    }
+  ]
+}
