@@ -31,6 +31,7 @@ No new training, benchmark, sensor purchase, implementation, or customer intervi
 - [What should remain updateable?](adaptation.md)
 - [Datasets, baselines, and reproducible evaluation](datasets-validation.md)
 - [Competition, customer alternatives, and commercial tests](competition-business.md)
+- [Proposed system architecture and update protocol](system-design.md)
 
 ## Related project research
 
