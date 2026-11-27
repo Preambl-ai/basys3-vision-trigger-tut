@@ -12,7 +12,7 @@ The earlier broad recommendation is provisional. Direct commercial overlap disco
 
 This review covers fixed/updateable models, neural and classical signal processing, microscope feedback, photon timing, quantum readout, calibration transfer, FPGA toolchains, datasets, interfaces, and commercial alternatives. It prioritizes primary papers, author code, official manuals, dataset custodians, and supplier documentation. It is a bounded review, not every paper, company, patent, or inaccessible source.
 
-Full text was inspected where accessible, including the FLIM and event-acquisition studies and the calibration-transfer paper. Some findings rely only on an abstract or official project description; the source register labels these boundaries. Product pages are capability claims, not independently reproduced benchmarks. Live documentation can change; pin versions before implementation.
+Relevant accessible sections were inspected in the FLIM and event-acquisition studies and the calibration-transfer paper. Some findings rely only on an abstract or official project description; the source register labels these boundaries. Some later attempts to retrieve article sections were blocked or unavailable; no claim here depends on bypassing those restrictions. Product pages are capability claims, not independently reproduced benchmarks. Live documentation can change; pin versions before implementation.
 
 Evidence labels used throughout:
 
@@ -29,6 +29,7 @@ No new training, benchmark, sensor purchase, implementation, or customer intervi
 - [Where inference could help an instrument](workflows.md)
 - [Hardware approaches and toolchains](hardware.md)
 - [What should remain updateable?](adaptation.md)
+- [Datasets, baselines, and reproducible evaluation](datasets-validation.md)
 
 ## Related project research
 
