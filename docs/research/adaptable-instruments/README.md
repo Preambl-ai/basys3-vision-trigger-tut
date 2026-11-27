@@ -30,6 +30,7 @@ No new training, benchmark, sensor purchase, implementation, or customer intervi
 - [Hardware approaches and toolchains](hardware.md)
 - [What should remain updateable?](adaptation.md)
 - [Datasets, baselines, and reproducible evaluation](datasets-validation.md)
+- [Competition, customer alternatives, and commercial tests](competition-business.md)
 
 ## Related project research
 
